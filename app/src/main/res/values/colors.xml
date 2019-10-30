@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00A67C</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimaryDarker">#004d40</color>
+    <color name="colorAccent">#304ffe</color>
+    <color name="colorChat">#202020</color>
+    <color name="colorDoctor">#0097a7</color>
+    <color name="colorDoctorDark">#006064</color>
+    <color name="colorDose">#d84315</color>
+    <color name="colorDoseDark">#4e342e</color>
+    <color name="colorAppointment">#b71c1c</color>
+    <color name="colorAppointmentDark">#850b0b</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorLightGray">#DEDEDE</color>
+    <color name="colorMedGray">#777777</color>
+    <color name="colorDarkGray">#202020</color>
+</resources>

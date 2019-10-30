@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatActivity"
+    android:background="@color/colorChat">
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimaryDark">
+
+        <Button
+            android:id="@+id/profileButton"
+            android:layout_width="318dp"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/colorLightGray"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="false"
+            android:gravity="start|center_vertical"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:paddingStart="32dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:textColor="@color/colorDarkGray"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_settings_black_24dp"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/button_sos"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="SOS"-->
+            <!--android:textColor="@color/colorDarkGray"/>-->
+
+    </LinearLayout>
+
+    <TextView
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editQuery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:padding="12dp"
+        android:ems="10"
+        android:hint="@string/type_query"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="6"
+        android:minHeight="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/background_queryinput"/>
+
+    <ImageButton
+        android:id="@+id/sendButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/background_sendbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/attachButton"
+        app:srcCompat="@drawable/ic_send_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/attachButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/background_sendbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messagerecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/editQuery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+
+
+</android.support.constraint.ConstraintLayout>
