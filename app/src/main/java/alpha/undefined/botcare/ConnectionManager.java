@@ -16,7 +16,8 @@ import java.io.UnsupportedEncodingException;
 
 public class ConnectionManager {
 
-    static String server_address = "http://192.168.43.24:8081";
+    static String server_address = "http://159.65.144.246:8100";
+    static String userID = "0";
 
     public interface VolleyCallback {
         void onSuccessResponse(String result);

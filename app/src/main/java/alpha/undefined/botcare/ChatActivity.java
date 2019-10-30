@@ -1,15 +1,18 @@
 package alpha.undefined.botcare;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import java.util.Calendar;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -54,7 +57,8 @@ public class ChatActivity extends AppCompatActivity {
 
 	//File
 	private final String filename = "encrypted_messages.bcm";
-	String CHANNEL_ID = "Alert_Channel";
+	String CHANNEL_ID1 = "Dosage_Channel";
+	String CHANNEL_ID2 = "Doctor_Channel";
 
 	//Server details
 	//String server_address = "http://192.168.43.24:8081";
@@ -71,7 +75,7 @@ public class ChatActivity extends AppCompatActivity {
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 
 	ImageButton sendButton, attachButton;
-	Button settingsButton, profileButton;
+	Button settingsButton, profileButton, deleteButton;
 	EditText editText;
 	RecyclerView messageView;
 
@@ -93,7 +97,8 @@ public class ChatActivity extends AppCompatActivity {
 		sendButton = (ImageButton) findViewById(R.id.sendButton);
 		attachButton = (ImageButton) findViewById(R.id.attachButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
-		profileButton = (Button) findViewById(R.id.profileButton);
+		deleteButton = (Button) findViewById(R.id.deleteButton);
+		//profileButton = (Button) findViewById(R.id.profileButton);
 
 		messageView = (RecyclerView) findViewById(R.id.messagerecyclerview);
 
@@ -125,20 +130,37 @@ public class ChatActivity extends AppCompatActivity {
 		settingsButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-				startActivity(intent);
+				//Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+				//startActivity(intent);
+				new AlertDialog.Builder(ChatActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+						.setTitle("Log Out")
+						.setMessage("Do you really want to log out? This will clear your chat history.")
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+								deleteMessages();
+								logOut();
+							}})
+						.setNegativeButton(android.R.string.no, null).show();
+
 			}
 		});
 
-//		profileButton.setOnClickListener(new View.OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-//				startActivity(intent);
-//			}
-//		});
+		deleteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				new AlertDialog.Builder(ChatActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+						.setTitle("Clear History")
+						.setMessage("Do you really want to delete your entire chat history?")
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+								deleteMessages();
+							}})
+						.setNegativeButton(android.R.string.no, null).show();
+			}
+		});
 
-//		profileButton.setVisibility(View.INVISIBLE);
 
 
 	}
@@ -207,6 +229,10 @@ public class ChatActivity extends AppCompatActivity {
 		try {
 			socket = IO.socket(ConnectionManager.server_address);
 			socket.connect();
+
+			//Establish session
+			socket.emit("newID", ConnectionManager.userID);
+
 			socket.on("newRegular", new Emitter.Listener() {
 				@Override
 				public void call(final Object... args) {
@@ -226,7 +252,22 @@ public class ChatActivity extends AppCompatActivity {
 				@Override
 				public void call(final Object... args) {
 					// Create an explicit intent for an Activity in your app
-					messageNotifications("Health Alert!", args[0].toString());
+					messageNotifications(getString(R.string.alert_dosage), args[0].toString());
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							messageList.add(new Message(args[0].toString(), message_response));
+							refresh();
+						}
+					});
+				}
+			});
+
+			socket.on("newDoctorResponse", new Emitter.Listener() {
+				@Override
+				public void call(final Object... args) {
+					// Create an explicit intent for an Activity in your app
+					messageNotifications(getString(R.string.alert_doctorresponse), args[0].toString());
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -306,7 +347,6 @@ public class ChatActivity extends AppCompatActivity {
 				@Override
 				public void call(final Object... args) {
 					// Create an explicit intent for an Activity in your app
-
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -353,20 +393,39 @@ public class ChatActivity extends AppCompatActivity {
 		}
 	}
 
+	void deleteMessages() {
+		messageList.clear();
+		saveMessages();
+		refresh();
+	}
+
+	void logOut() {
+		SharedPreferences sharedPref = getSharedPreferences("Login", MODE_PRIVATE);
+		sharedPref.edit().putString("userID", "0").commit();
+		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
 	private void createNotificationChannel() {
 		// Create the NotificationChannel, but only on API 26+ because
 		// the NotificationChannel class is new and not in the support library
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-			CharSequence name = getString(R.string.channel_name);
-			String description = getString(R.string.channel_description);
-			int importance = NotificationManager.IMPORTANCE_DEFAULT;
-			NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-			channel.setDescription(description);
+			NotificationChannel dosageChannel = new NotificationChannel(CHANNEL_ID1,
+					getString(R.string.alert_channel_dosage),
+					NotificationManager.IMPORTANCE_DEFAULT);
+			dosageChannel.setDescription(getString(R.string.alert_channel_dosage_description));
+
+			NotificationChannel doctorChannel = new NotificationChannel(CHANNEL_ID2,
+					getString(R.string.alert_channel_doctorresponse),
+					NotificationManager.IMPORTANCE_DEFAULT);
+			doctorChannel.setDescription(getString(R.string.alert_channel_doctorresponse_description));
 			// Register the channel with the system; you can't change the importance
 			// or other notification behaviors after this
 			NotificationManager notificationManager = getSystemService(NotificationManager.class);
-			notificationManager.createNotificationChannel(channel);
+			notificationManager.createNotificationChannel(dosageChannel);
+			notificationManager.createNotificationChannel(doctorChannel);
 		}
 	}
 
@@ -376,8 +435,8 @@ public class ChatActivity extends AppCompatActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		PendingIntent pendingIntent = PendingIntent.getActivity(ChatActivity.this, 0, intent, 0);
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this, CHANNEL_ID)
-				.setSmallIcon(R.drawable.ic_android_black_24dp)
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(ChatActivity.this, CHANNEL_ID1)
+				.setSmallIcon(R.drawable.ic_alarm_add_black_24dp)
 				.setContentTitle(title)
 				.setContentText(message)
 				.setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -401,8 +460,9 @@ public class ChatActivity extends AppCompatActivity {
 					@Override
 					public void onDateSet(DatePicker view, int year,
 					                      int monthOfYear, int dayOfMonth) {
-
-						socket.emit("changedAppointment", year + "-" + (monthOfYear + 1) + "-" + dayOfMonth );
+						String newDate = year + "-" + String.format("%02d", monthOfYear+1) + "-" + String.format("%02d", dayOfMonth);
+						socket.emit("changedAppointment", newDate );
+						Log.d("AppointmentChange", newDate);
 					}
 				}, mYear, mMonth, mDay);
 		datePickerDialog.show();

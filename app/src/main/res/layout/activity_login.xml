@@ -52,10 +52,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_email"
-                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:backgroundTint="@color/colorAccent"/>
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorMedGray"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -102,9 +103,19 @@
             android:layout_marginTop="64dp"
             android:text="@string/action_sign_up"
             android:textStyle="normal"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimary"
             android:layout_gravity="center"
             android:gravity="center"/>
 
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/server_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/colorMedGray"/>
+
 </android.support.constraint.ConstraintLayout>

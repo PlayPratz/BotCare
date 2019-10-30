@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/name"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/email"
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/password"
@@ -75,7 +75,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -91,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/confirmpassword"
@@ -99,7 +98,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
@@ -115,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/dob"
@@ -124,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Date of Birth"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="date"
                 android:maxLines="1"
@@ -140,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="@color/colorLightGray">
+            android:textColorHint="@color/colorMedGray">
 
             <EditText
                 android:id="@+id/address"
@@ -148,7 +145,6 @@
                 android:layout_height="wrap_content"
                 android:hint="Address"
                 android:imeActionId="6"
-                android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textMultiLine|textPostalAddress"
                 android:minLines="4"
@@ -165,7 +161,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/action_sign_in"
+            android:text="@string/action_sign_up_short"
             android:textStyle="bold"
             android:backgroundTint="@color/colorPrimary"
             android:textColor="@color/colorLightGray"/>

@@ -51,6 +51,7 @@ public class Message implements Serializable {
 	public String getTime() {
 		SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm a");
 		return localDateFormat.format(timestamp);
+
 	}
 
 }

@@ -1,5 +1,8 @@
 package alpha.undefined.botcare;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
@@ -12,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -159,12 +164,21 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 				break;
 
 			case ChatActivity.message_response:
-				((MessageViewHolder) holder).bind(mDataset.get(position));
-				break;
-
+				//((MessageViewHolder) holder).bind(mDataset.get(position);
 			case ChatActivity.message_query:
 			default:
 				((MessageViewHolder) holder).bind(mDataset.get(position));
+				holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+					@Override
+					public boolean onLongClick(View v) {
+						ClipData myClip;
+						ClipboardManager clipboard = (ClipboardManager) v.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+						myClip = ClipData.newPlainText("text", mDataset.get(position).getText());
+						clipboard.setPrimaryClip(myClip);
+						Toast.makeText(v.getContext(), "Message copied to clipboard", Toast.LENGTH_SHORT).show();
+						return true;
+					}
+				});
 				break;
 		}
 

@@ -22,7 +22,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText mName, mEmail, mPass, mConfirmPass, mDob, mAddress;
     private Button send;
-    String server_address = "http://192.168.43.24:8081";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         RequestQueue requestQueue = Volley.newRequestQueue(RegisterActivity.this);
-        String URL = server_address+"/register";
+        String URL = ConnectionManager.server_address+"/register";
 
         ConnectionManager.sendData(jsonObject.toString(), requestQueue, URL, new ConnectionManager.VolleyCallback() {
             @Override

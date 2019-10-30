@@ -3,8 +3,17 @@
     <string name="type_query">Type a query</string>
     <string name="message_time">09:12pm</string>
     <string name="message_text">Chalti Hai Kya 9 Se 12?</string>
-    <string name="channel_name">Notification Channel 4</string>
-    <string name="channel_description">A smooth channel</string>
+
+
+    <string name="alert_dosage">Medicine Time!</string>
+    <string name="alert_channel_dosage">Medication dosage alerts</string>
+    <string name="alert_channel_dosage_description">Receive medication reminders</string>
+    <string name="alert_doctorresponse">The Doctor says...</string>
+    <string name="alert_channel_doctorresponse">Doctor\'s responses</string>
+    <string name="alert_channel_doctorresponse_description">Receive notifications when your doctor replies to your queries</string>
+
+
+
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -85,6 +94,7 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_up">Don\'t have an account? <u>Sign up</u></string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_up_short">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>

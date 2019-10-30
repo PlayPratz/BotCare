@@ -14,25 +14,35 @@
         android:layout_height="56dp"
         android:background="@color/colorPrimaryDark">
 
-        <Button
+        <TextView
             android:id="@+id/profileButton"
             android:layout_width="318dp"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@color/colorLightGray"
             android:layout_gravity="center"
             android:background="@color/colorPrimaryDark"
             android:clickable="false"
-            android:gravity="start|center_vertical"
-            android:textAllCaps="false"
-            android:textSize="18sp"
             android:fontFamily="sans-serif-condensed-medium"
-            android:paddingStart="32dp"/>
+            android:gravity="start"
+            android:paddingStart="32dp"
+            android:text="@string/app_name"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/colorLightGray"
+            android:textSize="18sp" />
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:textColor="@color/colorDarkGray"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_delete_forever_black_24dp"/>
+
         <Button
             android:id="@+id/settingsButton"
             android:layout_width="25dp"
@@ -40,7 +50,7 @@
             android:textColor="@color/colorDarkGray"
             android:layout_marginRight="16dp"
             android:layout_gravity="center"
-            android:background="@drawable/ic_settings_black_24dp"/>
+            android:background="@drawable/ic_power_settings_new_black_24dp"/>
 
         <!--<Button-->
             <!--android:id="@+id/button_sos"-->
