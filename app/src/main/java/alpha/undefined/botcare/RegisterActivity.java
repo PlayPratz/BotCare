@@ -1,13 +1,15 @@
 package alpha.undefined.botcare;
 
 import android.app.DatePickerDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -46,10 +48,38 @@ public class RegisterActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                register();
+                checkError();
             }
         });
 
+    }
+
+    void checkError() {
+        int flag=0;
+        if(mPass.getText().toString().length()<8) {
+            mPass.setError("Password must require minimum 8 characters");
+            flag=1;
+        }
+        if(!mPass.getText().toString().equals(mConfirmPass.getText().toString())) {
+            mPass.setError("Password does not match Confirm Password");
+            mConfirmPass.setError("Password does not match Confirm Password");
+            flag=1;
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString()).matches()) {
+            mEmail.setError("Must be a valid E-mail");
+            flag=1;
+        }
+        if(mAddress.getText().toString().length()==0) {
+            mAddress.setError("Must not be empty");
+            flag=1;
+        }
+        if(mDob.getText().toString().length()==0) {
+            mDob.setError("Must not be empty");
+            flag=1;
+        }
+        if(flag==0) {
+            register();
+        }
     }
 
     private void register() {

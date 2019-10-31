@@ -35,6 +35,15 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
         <Button
+            android:id="@+id/locationButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:textColor="@color/colorDarkGray"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_add_location_black_24dp"/>
+
+        <Button
             android:id="@+id/deleteButton"
             android:layout_width="25dp"
             android:layout_height="25dp"

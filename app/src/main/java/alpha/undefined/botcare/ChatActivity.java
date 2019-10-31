@@ -15,6 +15,7 @@ import java.util.Calendar;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -75,7 +76,7 @@ public class ChatActivity extends AppCompatActivity {
 	static final int REQUEST_IMAGE_CAPTURE = 1;
 
 	ImageButton sendButton, attachButton;
-	Button settingsButton, profileButton, deleteButton;
+	Button settingsButton, profileButton, deleteButton, locationButton;
 	EditText editText;
 	RecyclerView messageView;
 
@@ -122,8 +123,19 @@ public class ChatActivity extends AppCompatActivity {
 		attachButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				takePhoto();
-				askForPermission(Manifest.permission.CAMERA,0);
+				if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+					askForPermission(Manifest.permission.CAMERA,0);
+				else
+					takePhoto();
+			}
+		});
+
+		locationButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+//				Location lastLocation = LocationServices.FusedLocationApi
+//						.getLastLocation(mGoogleApiClient);
+
 			}
 		});
 
