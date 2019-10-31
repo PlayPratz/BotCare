@@ -15,19 +15,13 @@ import java.util.Calendar;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -36,9 +30,21 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +58,9 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import static android.app.Notification.EXTRA_NOTIFICATION_ID;
 
 public class ChatActivity extends AppCompatActivity {
@@ -83,6 +92,7 @@ public class ChatActivity extends AppCompatActivity {
 	ArrayList<Message> messageList = new ArrayList<>();
 	MessageAdapter messageAdapter;
 	LinearLayoutManager linearLayoutManager;
+	private FusedLocationProviderClient fusedLocationClient;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +102,8 @@ public class ChatActivity extends AppCompatActivity {
 		socketMaker();
 		createNotificationChannel();
 
+		fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
 	//	messageList.add(new Message("Chalti Hai Kya 9 se 12?", 1, new Date()));
 
 		editText = (EditText) findViewById(R.id.editQuery);
@@ -100,6 +112,7 @@ public class ChatActivity extends AppCompatActivity {
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		deleteButton = (Button) findViewById(R.id.deleteButton);
 		//profileButton = (Button) findViewById(R.id.profileButton);
+		locationButton = (Button) findViewById(R.id.locationButton);
 
 		messageView = (RecyclerView) findViewById(R.id.messagerecyclerview);
 
@@ -133,8 +146,14 @@ public class ChatActivity extends AppCompatActivity {
 		locationButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-//				Location lastLocation = LocationServices.FusedLocationApi
-//						.getLastLocation(mGoogleApiClient);
+				Log.d("Kaldon-Location", "Clicked");
+
+				if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+					askForPermission(Manifest.permission.ACCESS_FINE_LOCATION,0);
+				else
+					sendLocation();
+
+
 
 			}
 		});
@@ -228,6 +247,26 @@ public class ChatActivity extends AppCompatActivity {
 		socket.emit("newMessage", message);
 		refresh();
 		Log.i("Messages", messageList.get(messageList.size()-1).getText());
+	}
+
+	void sendLocation() {
+		fusedLocationClient.getLastLocation()
+				.addOnSuccessListener(ChatActivity.this, new OnSuccessListener<Location>() {
+					@Override
+					public void onSuccess(Location location) {
+						// Got last known location. In some rare situations this can be null.
+						if (location != null) {
+							// Logic to handle location object
+							Log.d("Kaldon-Location", location.toString());
+							socket.emit("newLocation", location.toString());
+							messageList.add(new Message(location.toString(), message_query));
+							refresh();
+
+						}
+						else
+							Log.d("Kaldon-Location", "Clicked");
+					}
+				});
 	}
 
 	private void refresh() {
