@@ -166,7 +166,7 @@ public class ChatActivity extends AppCompatActivity {
 				new AlertDialog.Builder(ChatActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
 						.setTitle("Log Out")
 						.setMessage("Do you really want to log out? This will clear your chat history.")
-						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setIcon(R.drawable.ic_power_settings_new_black_24dp)
 						.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								deleteMessages();
@@ -183,7 +183,7 @@ public class ChatActivity extends AppCompatActivity {
 				new AlertDialog.Builder(ChatActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
 						.setTitle("Clear History")
 						.setMessage("Do you really want to delete your entire chat history?")
-						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setIcon(R.drawable.ic_delete_forever_black_24dp)
 						.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								deleteMessages();
@@ -258,8 +258,22 @@ public class ChatActivity extends AppCompatActivity {
 						if (location != null) {
 							// Logic to handle location object
 							Log.d("Kaldon-Location", location.toString());
-							socket.emit("newLocation", location.toString());
-							messageList.add(new Message(location.toString(), message_query));
+
+							Double lat = location.getLatitude();
+							Double lng = location.getLongitude();
+							Double alt = location.getAltitude();
+
+							String locationStr = "Latitude: "+lat.toString()
+									+"\nLongitude: "+lng.toString()
+									+"\nAltitude:"+alt.toString();
+							socket.emit("newLocation", locationStr);
+
+
+							messageList.add(new Message("Your location is:"
+									+"\nLatitude: "+lat.toString()
+									+"\nLongitude: "+lng.toString()
+									+"\nAltitude:"+alt.toString()
+									, message_response));
 							refresh();
 
 						}
